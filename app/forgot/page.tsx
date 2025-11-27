@@ -3,6 +3,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default function ForgotPage() {
   const { register, handleSubmit } = useForm<{ email:string }>();
   const router = useRouter();
