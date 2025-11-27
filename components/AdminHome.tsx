@@ -1,4 +1,6 @@
 // components/AdminHome.tsx
+'use client';
+
 export default function AdminHome() {
   return (
     <div className="p-10">
