@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { supabase } from '../../../lib/supabaseClient';
+export const dynamic = 'force-dynamic';
 
 export default function RegisterVerifyPage() {
   const params = useSearchParams();
