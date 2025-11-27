@@ -1,10 +1,9 @@
 "use client";
-
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabaseClient';
 import InvoiceForm from '../../components/InvoiceForm';
-
+export const dynamic = 'force-dynamic';
 
 export default function DashboardPage() {
   const router = useRouter();
