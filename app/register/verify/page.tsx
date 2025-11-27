@@ -1,5 +1,5 @@
 // app/register/verify/page.tsx
-'use client'
+'use client';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { supabase } from '../../../lib/supabaseClient';
