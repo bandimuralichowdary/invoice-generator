@@ -7,6 +7,8 @@ import { supabase } from '../../lib/supabaseClient';
 
 type Form = { email: string; password: string };
 
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
   const { register, handleSubmit } = useForm<Form>();
   const router = useRouter();
