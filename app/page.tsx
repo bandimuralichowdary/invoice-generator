@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import HomeClient from '../components/HomeClient';
 import { supabase } from '../lib/supabaseClient';
+export const dynamic = 'force-dynamic';
 
 export default function Home() {
   const params = useSearchParams();
