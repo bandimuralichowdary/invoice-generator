@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 type Form = { name: string; email: string; password: string };
+export const dynamic = 'force-dynamic';
 
 export default function RegisterPage() {
   const { register, handleSubmit } = useForm<Form>();
