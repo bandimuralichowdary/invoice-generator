@@ -2,6 +2,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+export const dynamic = 'force-dynamic';
 
 export default function ForgotResetPage() {
   const params = useSearchParams();
