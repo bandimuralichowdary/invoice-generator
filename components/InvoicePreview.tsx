@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React from 'react';
 
 export default function InvoicePreview({ companyName='My Store', customerName='', mobile='', items=[] as any[], date = new Date() }) {
