@@ -11,7 +11,9 @@ export default function HomeClient() {
   const { isAdmin, logout } = useAdmin();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => setLoading(false), []);
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   if (loading) return <div>Loading...</div>;
 
@@ -19,8 +21,12 @@ export default function HomeClient() {
     <div className="max-w-6xl mx-auto p-4 space-y-4">
       <header className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Invoice Generator</h1>
+
         {isAdmin && (
-          <button onClick={logout} className="px-3 py-1 border rounded">
+          <button
+            onClick={logout}
+            className="px-3 py-1 border rounded"
+          >
             Logout Admin
           </button>
         )}
