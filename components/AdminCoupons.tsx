@@ -1,12 +1,10 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 
 type Coupon = {
-  id?: string;
+  id?: string; // optional now for new inserts
   code: string;
   min_amount: number;
   discount_percent: number;
@@ -32,39 +30,24 @@ export default function AdminCoupons() {
 
   async function loadCoupons() {
     setLoading(true);
-    const { data } = await supabase
-      .from('coupons')
-      .select('*')
-      .order('created_at', { ascending: false });
-
+    const { data } = await supabase.from('coupons').select('*').order('created_at', { ascending: false });
     setCoupons(data || []);
     setLoading(false);
   }
 
   async function saveCoupon() {
     const payload = { ...newCoupon };
-    if (!editing) delete payload.id;
+    if (!editing) delete payload.id; // let Supabase generate UUID
 
     if (editing) {
-      const { error } = await supabase
-        .from('coupons')
-        .update(payload)
-        .eq('id', editing.id);
+      const { error } = await supabase.from('coupons').update(payload).eq('id', editing.id);
       if (error) return alert(error.message);
       setEditing(null);
     } else {
       const { error } = await supabase.from('coupons').insert([payload]);
       if (error) return alert(error.message);
     }
-
-    setNewCoupon({
-      code: '',
-      min_amount: 0,
-      discount_percent: 0,
-      discount_amount: 0,
-      expiry: null,
-    });
-
+    setNewCoupon({ code: '', min_amount: 0, discount_percent: 0, discount_amount: 0, expiry: null });
     loadCoupons();
   }
 
@@ -116,9 +99,7 @@ export default function AdminCoupons() {
         />
         <button
           onClick={saveCoupon}
-          className={`px-4 py-2 rounded text-white font-semibold ${
-            editing ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-green-600 hover:bg-green-700'
-          }`}
+          className={`px-4 py-2 rounded text-white font-semibold ${editing ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-green-600 hover:bg-green-700'}`}
         >
           {editing ? 'Save' : 'Add'}
         </button>
@@ -147,19 +128,10 @@ export default function AdminCoupons() {
                   <td className="px-4 py-2 text-gray-800">₹{c.min_amount}</td>
                   <td className="px-4 py-2 text-gray-800">{c.discount_percent}</td>
                   <td className="px-4 py-2 text-gray-800">₹{c.discount_amount}</td>
-                  <td className="px-4 py-2 text-gray-800">
-                    {c.expiry ? new Date(c.expiry).toLocaleDateString() : '-'}
-                  </td>
+                  <td className="px-4 py-2 text-gray-800">{c.expiry ? new Date(c.expiry).toLocaleDateString() : '-'}</td>
                   <td className="px-4 py-2 space-x-2">
-                    <button onClick={() => setEditing(c)} className="text-blue-600 hover:underline">
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteCoupon(c.id!)}
-                      className="text-red-600 hover:underline"
-                    >
-                      Delete
-                    </button>
+                    <button onClick={() => setEditing(c)} className="text-blue-600 hover:underline">Edit</button>
+                    <button onClick={() => deleteCoupon(c.id!)} className="text-red-600 hover:underline">Delete</button>
                   </td>
                 </tr>
               ))}
