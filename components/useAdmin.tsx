@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 
 export default function useAdmin() {
@@ -6,6 +7,10 @@ export default function useAdmin() {
 
   useEffect(() => {
     let mounted = true;
+
+    // Run only in browser (prevents SSR crashes on Vercel)
+    if (typeof window === 'undefined') return;
+
     try {
       const params = new URLSearchParams(window.location.search);
       const pass = params.get('adminPass');
@@ -14,17 +19,25 @@ export default function useAdmin() {
       if (pass && pass === expected) {
         localStorage.setItem('isAdmin', '1');
         if (mounted) setIsAdmin(true);
+
+        // Remove adminPass from URL safely
         params.delete('adminPass');
-        const queryString = params.toString() ? '?' + params.toString() : '';
-        history.replaceState({}, '', `${location.pathname}${queryString}${location.hash || ''}`);
+        const qs = params.toString() ? `?${params.toString()}` : '';
+        window.history.replaceState({}, '', `${window.location.pathname}${qs}${window.location.hash || ''}`);
       } else {
         if (mounted) setIsAdmin(localStorage.getItem('isAdmin') === '1');
       }
-    } catch (e) { console.error('useAdmin error:', e); }
-    return () => { mounted = false; };
+    } catch (e) {
+      console.error('useAdmin error:', e);
+    }
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const logout = () => {
+    if (typeof window === 'undefined') return;
     localStorage.removeItem('isAdmin');
     setIsAdmin(false);
   };
