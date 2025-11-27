@@ -1,5 +1,5 @@
 // app/forgot/reset/page.tsx
-'use client'
+'use client';
 import React, { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
